@@ -62,3 +62,22 @@ Base pronta para autenticação moderna com tokens.
 ---
 
 ## 🧱 Estrutura do Projeto
+Controllers/
+Services/
+Interfaces/
+Dto/
+Models/
+Data/
+Migrations/
+
+---
+
+### 📌 Organização das camadas
+
+- 📦 **Controllers** → Responsáveis por receber as requisições HTTP e devolver respostas
+- ⚙️ **Services** → Contém toda a regra de negócio da aplicação
+- 📑 **Interfaces** → Definem contratos das services
+- 📤 **DTOs** → Objetos de transferência de dados entre camadas
+- 🧱 **Models** → Entidades do banco de dados
+- 🗄️ **Data (DbContext)** → Contexto do Entity Framework Core
+- 📊 **Migrations** → Controle de versionamento do banco
