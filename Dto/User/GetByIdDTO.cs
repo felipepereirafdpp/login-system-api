@@ -3,5 +3,6 @@
     public class ByIdDTO
     {
         public Guid Id { get; set; }
+
     }
 }

@@ -1,9 +1,6 @@
-using BCrypt.Net;
 using Login_system.Dto.Auth;
 using Login_system.Dto.DtoUser;
 using Login_system.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

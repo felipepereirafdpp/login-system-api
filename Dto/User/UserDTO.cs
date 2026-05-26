@@ -1,9 +1,8 @@
-﻿namespace Login_system.Dto.DtoUser
+﻿namespace Login_system.Dto.DtoUser;
+
+public class UserDTO
 {
-    public class UserDTO
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
 }
