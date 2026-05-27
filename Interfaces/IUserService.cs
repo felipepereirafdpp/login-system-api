@@ -5,9 +5,10 @@ namespace Login_system.Interfaces;
 
 public interface IUserService
 {
-    List<UserDTO> GetAllUsers();
-    UserDTO GetById(ByIdDTO id);
-    UserDTO UpdateUser(ByIdDTO id, UpdateUserDTO user);
-    bool DeleteUser(ByIdDTO id);
-    UserDTO GetByEmail(ByEmail emailUser);   
+    Task<List<UserDTO>> GetAllUsers();
+    Task<UserDTO> GetById(ByIdDTO id);
+    Task<UserDTO> UpdateUser(ByIdDTO id, UpdateUserDTO user);
+    Task<bool> DeleteUser(ByIdDTO id);
+    Task<UserDTO> GetByEmail(EmailDTO emailUser);
+    
 }

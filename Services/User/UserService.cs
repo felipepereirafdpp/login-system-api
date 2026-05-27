@@ -70,4 +70,47 @@ public class UserService : IUserService
         });
         return (dados);
     }
+
+    public async Task<UserDTO> UpdateUser(ByIdDTO id, UpdateUserDTO dadosNovos)
+    {
+
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            throw new Exception("Usuario não encontrado !");
+        }
+        user.Name = dadosNovos.Name;
+        user.Email = dadosNovos.Email;
+
+        await _context.SaveChangesAsync();
+
+        var usuarioAtualizado = (new UserDTO
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email
+
+
+        });
+        return (usuarioAtualizado);
+
+    }
+
+    public async Task<Boolean> DeleteUser(ByIdDTO id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return false;
+            
+        }
+        _context.Remove(user);
+        await _context.SaveChangesAsync();
+
+
+        return true;
+
+    }
+
+    
 }
