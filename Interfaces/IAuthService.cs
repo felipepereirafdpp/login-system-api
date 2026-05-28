@@ -5,11 +5,10 @@ namespace Login_system.Interfaces;
 
 public interface IAuthService
 {
-    Task<LoginDTO> LoginUsers();
-    Task<RegisterUserDTO> RegisterUsers();
-    Task<ForgotPasswordDTO> ForgotPassword();
-    Task<ResetPasswordDTO> ResetPassword();
-    Task<ResponseTokenDTO> ResponseToken();
-    Task<ValidateTokenDTO> ValidateToken();
+    Task<ResponseTokenDTO> LoginUsers(LoginDTO DadosUser);
+    Task<ResponseTokenDTO> RegisterUsers(RegisterUserDTO register);
+    Task<ForgotPasswordDTO> ForgotPassword(ForgotPasswordDTO senhaDTO);
+    Task<ResetPasswordDTO> ResetPassword(ResetPasswordDTO resetDTO);
+    Task<bool> ValidateToken(string token);
 
 }

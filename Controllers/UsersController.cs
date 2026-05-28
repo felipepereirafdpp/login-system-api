@@ -73,10 +73,11 @@ public class UsersController : ControllerBase
     // POST: api/Users
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<RegisterUser>> RegistrarUsers(RegisterUser RegistroUser)
+    public async Task<ActionResult<RegisterUserDTO>> RegistrarUsers(RegisterUserDTO RegistroUser)
     {
         Users user = new Users { 
                Name = RegistroUser.Name,
+            PasswordHash = RegistroUser.Password,
         };
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
