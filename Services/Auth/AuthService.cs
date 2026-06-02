@@ -1,23 +1,23 @@
 ﻿using Login_system.Dto.Auth;
+using Login_system.Dto.Auth.DtoExit;
 using Login_system.Exceptions;
 using Login_system.Interfaces;
 using Login_system.Models;
-using Login_system.Services.Auth.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.NetworkInformation;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 
 
-namespace Login_system.Services.Auth
-{
+namespace Login_system.Services.Auth;
+
     public class AuthService : IAuthService
     {   
-        
+    
 
         // Campo privado somente leitura que guarda a instância do DbContext
         // Ele é usado para acessar o banco de dados dentro da classe Service
@@ -60,9 +60,26 @@ namespace Login_system.Services.Auth
             // Por fim, usamos o JwtSecurityTokenHandler para escrever o token em formato string e retornamos ele
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        public static string GenerateNumericToken(int length = 6)
+        {
+            char[] digits = new char[length];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                byte[] data = new byte[length];
+                rng.GetBytes(data);
+
+                for (int i = 0; i < length; i++)
+                {
+                    // Mapeia o byte aleatório (0-255) para um dígito seguro (0-9)
+                    digits[i] = (char)('0' + (data[i] % 10));
+                }
+            }
+            return new string(digits);
+        }
 
 
-        public async Task<ResponseTokenDTO> RegisterUsers(RegisterUserDTO dadosUser)
+    public async Task<ResponseTokenDTO> RegisterUsers(RegisterUserDTO dadosUser)
         {
             var temArroba = new EmailAddressAttribute().IsValid(dadosUser.Email); ;
             if (!temArroba)
@@ -74,7 +91,7 @@ namespace Login_system.Services.Auth
             {
                 throw new EmailJaCadastradoException();
             }
-            
+        
             var user = new Users
             {
                 Name = dadosUser.Name,
@@ -83,12 +100,12 @@ namespace Login_system.Services.Auth
             };
             try
             {
-                _context.Users.Add(user);
+                _context.Users.Add(user);   
                 await _context.SaveChangesAsync();
             }
             catch(DbUpdateException ex)
             {
-                throw new ExceptionsAuthSalvarBanco("Erro ao salvar o usuário no banco de dados.", ex);
+                throw new ExceptionsAuthSalvarBanco("Erro ao salvar o usuário.", ex);
             }
 
             var token = GenerateToken(user); // Pega as informações do usuário e gera um token JWT
@@ -96,7 +113,7 @@ namespace Login_system.Services.Auth
             return new ResponseTokenDTO // retona o token e as informações do usuarioa para o cliente 
             {
                 Token = token,
-                ExpiresAt = DateTime.UtcNow.AddHours(2),
+                ExpiresAt = DateTime.UtcNow.AddHours(1),
                 UserId = user.Id,
                 Name = user.Name,
                 Email = user.Email
@@ -104,8 +121,69 @@ namespace Login_system.Services.Auth
 
         }
 
+        public async Task<ResponseTokenDTO> LoginUsers(LoginDTO dadosLoginUser)
+        {
+        
+            if (string.IsNullOrWhiteSpace(dadosLoginUser.Email) || string.IsNullOrWhiteSpace(dadosLoginUser.Password))
+            {
+                throw new ExceptionsAuthLogin("Email e senha são obrigatórios.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dadosLoginUser.Email);
+            if (user == null)
+            {
+                throw new ExceptionsAuthLogin();
+            }
+            var senhaValida = BCrypt.Net.BCrypt.Verify(dadosLoginUser.Password, user.PasswordHash);
+            if (!senhaValida)
+            {
+                throw new ExceptionsAuthLogin();
+            }
+
+            var token = GenerateToken(user);
+            return new ResponseTokenDTO
+            {
+                Token = token,
+                ExpiresAt = DateTime.UtcNow.AddHours(1),
+                UserId = user.Id,
+                Email = user.Email,
+                Name = user.Name
+
+            };
+        }
+        public async Task<ResponseForgotPasswordDTO> ForgetPassword(ForgotPasswordDTO emailPassordReset)
+        {
+            if (string.IsNullOrWhiteSpace(emailPassordReset.Email))
+            {
+            throw new ExceptionsAuthFogotPassword();
+            }
+            var userEmail = await _context.Users.FirstOrDefaultAsync(u => u.Email == emailPassordReset.Email);
+            if (userEmail == null)
+            {
+                throw new ExceptionsAuthFogotPassword();
+            }
+             string tokenGerado = GenerateNumericToken(6);
+
+            var passwordResetToken = new PasswordResetToken
+            {
+                Token = tokenGerado,
+                ExpiresAt = DateTime.UtcNow.AddMinutes(5),
+                UserId = userEmail.Id,
+            };
+        try
+        {
+            _context.PasswordResetTokens.Add(passwordResetToken);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex) { 
+            throw new ExceptionsAuthSalvarBanco("Erro ao  solicitar redefinição de senha.", ex);
+        }
+
     }
 
 
-}
+    }
+       
+
+    
 
