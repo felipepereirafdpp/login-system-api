@@ -1,21 +1,27 @@
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Login_system.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Connection String
 var connectionString = builder.Configuration.GetConnectionString("Login_systemContext")
     ?? throw new InvalidOperationException("Connection string 'Login_systemContext' not found.");
 
+// DbContext
 builder.Services.AddDbContext<Login_systemContext>(options =>
     options.UseSqlServer(connectionString));
 
+// Controllers
 builder.Services.AddControllers();
 
+// OpenAPI
 builder.Services.AddOpenApi();
 
+
+// ===================== JWT AUTH =====================
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -32,10 +38,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
+// Authorization
 builder.Services.AddAuthorization();
+
+
+// ===================== SERVICES =====================
+// Email Service (IMPORTANTE)
+builder.Services.AddScoped<EmailsService>();
+
 
 var app = builder.Build();
 
+
+// ===================== PIPELINE =====================
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
