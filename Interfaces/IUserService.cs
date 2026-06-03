@@ -7,7 +7,7 @@ public interface IUserService
 {
     Task<List<UserDTO>> GetAllUsers();
     Task<UserDTO> GetById(ByIdDTO id);
-    Task<UserDTO> UpdateUser(ByIdDTO id, UpdateUserDTO user);
+    Task<UserDTO> UpdateUser(UpdateUserDTO user);
     Task<bool> DeleteUser(ByIdDTO id);
     Task<UserDTO> GetByEmail(EmailDTO emailUser);
     

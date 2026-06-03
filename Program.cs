@@ -1,8 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+using Login_system.Interfaces;
+using Login_system.Services.Auth;
+using Login_system.Services.EmailService;
+using Login_system.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Login_system.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes("FELIPE12092008")
+            Encoding.UTF8.GetBytes("FELIPE_12092008_MINHA_CHAVE_DA_API")
         ),
         ValidateIssuer = false,
         ValidateAudience = false,
@@ -45,7 +48,8 @@ builder.Services.AddAuthorization();
 // ===================== SERVICES =====================
 // Email Service (IMPORTANTE)
 builder.Services.AddScoped<EmailsService>();
-
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

@@ -48,7 +48,7 @@ public class AuthService : IAuthService
 
         // A chave de segurança é usada para assinar o token e garantir que ele não seja alterado
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes("FELIPE12092008")
+            Encoding.UTF8.GetBytes("FELIPE_12092008_MINHA_CHAVE_DA_API")
         );
 
         // COMO O TOKEN VAI SER ASSINADO, PRECISAMOS DE UMA CHAVE E DE UM ALGORITMO DE ASSINATURA

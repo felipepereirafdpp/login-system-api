@@ -71,10 +71,10 @@ public class UserService : IUserService
         return (dados);
     }
 
-    public async Task<UserDTO> UpdateUser(ByIdDTO id, UpdateUserDTO dadosNovos)
+    public async Task<UserDTO> UpdateUser(UpdateUserDTO dadosNovos)
     {
 
-        var user = await _context.Users.FindAsync(id);
+        var user = await _context.Users.FindAsync(dadosNovos.Id);
         if (user == null)
         {
             throw new Exception("Usuario não encontrado !");
