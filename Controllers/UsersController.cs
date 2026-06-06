@@ -13,11 +13,10 @@ using Microsoft.EntityFrameworkCore;
 [Authorize]
 public class UsersController : ControllerBase
 {
-    private readonly Login_systemContext _context;
     private readonly IUserService _userService;
-    public UsersController(Login_systemContext context, IUserService userService )
+    public UsersController( IUserService userService )
     {
-        _context = context;
+       
         _userService = userService;
     }
 
@@ -27,12 +26,8 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<IEnumerable<UserDTO>>> ListarUsuarios()
     {
         
-        var user = _userService.GetAllUsers();
-        if (user == null)
-        {
-            return NotFound();
-        }
-
+        var user = await _userService.GetAllUsers();
+      
         return Ok(user);
        
     }
@@ -42,11 +37,8 @@ public class UsersController : ControllerBase
     [HttpGet("id/{id}")]
     public async Task<ActionResult<UserDTO>> ListarUsuariosID(ByIdDTO id)
     {
-        var userId = _userService.GetById(id);
-        if (userId == null)
-        {
-            return NotFound();
-        }
+        var userId =  await _userService.GetById(id);
+     
         return Ok(userId);
     }
 
@@ -54,11 +46,8 @@ public class UsersController : ControllerBase
     [HttpGet("email/{email}")]
     public async Task<ActionResult<UserDTO>> GetByEmail(EmailDTO email)
     {
-        var userEmail = _userService.GetByEmail(email);
-        if(userEmail == null)
-        {
-            return NotFound();
-        }
+        var userEmail = await _userService.GetByEmail(email);
+       
         return Ok(userEmail);
     }
 
@@ -69,12 +58,9 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> PutUsers(UpdateUserDTO userUpdate)
     {
 
-        var user = _userService.UpdateUser(userUpdate);
-        if(user == null)
-        {
-            return NotFound();
-        }
-        return Ok("Dados Atualizados");
+        var user = await _userService.UpdateUser(userUpdate);
+        
+        return Ok(user);
 
        
     }
@@ -84,33 +70,16 @@ public class UsersController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<bool> DeleteUser(ByIdDTO id)
     {
-        var userDelete = _userService.DeleteUser(id);
-        if(userDelete == null)
+        var userDelete =  await _userService.DeleteUser(id);
+        if (!userDelete)
         {
             return false;
         }
+
         return true;
     }
 
-    private bool UsersExists(System.Guid? id)
-    {
-        return _context.Users.Any(e => e.Id == id);
-    }
+   
 }
 
-//// POST: api/Users
-//// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-//[HttpPost]
-//public async Task<ActionResult<RegisterUserDTO>> RegistrarUsers(RegisterUserDTO RegistroUser)
-//{
-//    Users user = new Users { 
-//           Name = RegistroUser.Name,
-//        PasswordHash = RegistroUser.Password,
-//    };
-//    _context.Users.Add(user);
-//    await _context.SaveChangesAsync();
-
-//    return Ok(user);
-
-//}
 
