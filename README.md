@@ -1,83 +1,177 @@
 # 🚀 Login System API
 
-![.NET](https://img.shields.io/badge/.NET-API-512BD4?style=for-the-badge&logo=dotnet)
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet)
 ![C#](https://img.shields.io/badge/C%23-Language-239120?style=for-the-badge&logo=csharp)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET-Core-512BD4?style=for-the-badge&logo=dotnet)
+![SQL Server](https://img.shields.io/badge/SQL-Server-CC2927?style=for-the-badge&logo=microsoftsqlserver)
+![Entity Framework](https://img.shields.io/badge/Entity%20Framework-Core-68217A?style=for-the-badge)
+![Swagger](https://img.shields.io/badge/Swagger-Documentation-85EA2D?style=for-the-badge&logo=swagger)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge)
-![Architecture](https://img.shields.io/badge/Architecture-Clean%20Style-blue?style=for-the-badge)
+![Architecture](https://img.shields.io/badge/Architecture-Clean%20Code-blue?style=for-the-badge)
 
 ---
 
 ## 📌 Sobre o Projeto
 
-API de autenticação e gerenciamento de usuários desenvolvida em **ASP.NET Core**, estruturada com foco em **organização, escalabilidade e boas práticas de mercado**.
+API de autenticação e gerenciamento de usuários desenvolvida em **ASP.NET Core**, utilizando arquitetura em camadas e boas práticas de desenvolvimento.
 
-O projeto já segue uma arquitetura próxima a sistemas profissionais utilizados em empresas reais.
+O objetivo do projeto é simular a estrutura utilizada em aplicações reais, priorizando organização, manutenção, escalabilidade e segurança.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- C#
+- ASP.NET Core
+- Entity Framework Core
+- SQL Server
+- BCrypt
+- Swagger/OpenAPI
+- Dependency Injection
+- REST API
 
 ---
 
 ## 🧠 Arquitetura do Sistema
 
-O projeto foi dividido em camadas para manter o código limpo e organizado:
+O projeto foi dividido em camadas para manter o código organizado e de fácil manutenção.
 
-- 📦 **Controllers** → Entrada das requisições HTTP  
-- ⚙️ **Services** → Regras de negócio  
-- 📑 **Interfaces** → Contratos das services  
-- 📤 **DTOs** → Comunicação segura entre camadas  
-- 🧱 **Models** → Entidades do banco de dados  
-- 🗄️ **Data (DbContext)** → Acesso ao banco com Entity Framework Core  
-- 📊 **Migrations** → Versionamento do banco  
+- 📦 **Controllers** → Entrada das requisições HTTP
+- ⚙️ **Services** → Regras de negócio
+- 📑 **Interfaces** → Contratos das Services
+- 📤 **DTOs** → Comunicação segura entre camadas
+- 🧱 **Models** → Entidades do banco de dados
+- 🗄️ **Data (DbContext)** → Acesso ao banco de dados
+- 📊 **Migrations** → Controle de versão do banco
 
 ---
 
 ## 🔐 Funcionalidades
 
-- ✅ Registro de usuários  
-- ✅ Login de usuários  
-- ✅ Validação de credenciais  
-- 🔒 Senhas criptografadas com BCrypt  
-- 🚧 Estrutura pronta para JWT Authentication  
+- ✅ Registro de usuários
+- ✅ Login de usuários
+- ✅ Validação de credenciais
+- ✅ Criptografia de senhas com BCrypt
+- ✅ Entity Framework Core
+- 🚧 JWT Authentication
+- 🚧 Recuperação de senha
+- 🚧 Refresh Tokens
 
 ---
 
 ## 🧩 Diferenciais Técnicos
 
-🔥 **Arquitetura limpa (Clean Code)**  
-Separação clara entre Controller e lógica de negócio.
+### 🔥 Arquitetura em Camadas
 
-🔥 **Uso de Interfaces**  
-Facilita manutenção, testes e escalabilidade.
+Separação clara entre apresentação, negócio e acesso a dados.
 
-🔥 **DTOs bem definidos**  
-Evita exposição direta das entidades do banco.
+### 🔥 Uso de Interfaces
 
-🔥 **Estrutura escalável**  
-Pronto para crescer sem necessidade de refatoração.
+Facilita manutenção, testes e desacoplamento.
 
-🔥 **Segurança aplicada**  
-Senhas armazenadas com hash (BCrypt).
+### 🔥 DTOs Bem Definidos
 
-🔥 **Preparado para JWT**  
-Base pronta para autenticação moderna com tokens.
+Evita exposição direta das entidades da aplicação.
+
+### 🔥 Estrutura Escalável
+
+Preparada para crescimento sem necessidade de grandes refatorações.
+
+### 🔥 Boas Práticas de Segurança
+
+Proteção de senhas utilizando BCrypt.
+
+### 🔥 Pronto para JWT
+
+Estrutura preparada para autenticação baseada em tokens.
 
 ---
 
 ## 🧱 Estrutura do Projeto
+
+```text
 Controllers/
 Services/
 Interfaces/
-Dto/
+DTOs/
 Models/
 Data/
 Migrations/
+```
 
 ---
 
-### 📌 Organização das camadas
+## 📸 Demonstração
 
-- 📦 **Controllers** → Responsáveis por receber as requisições HTTP e devolver respostas
-- ⚙️ **Services** → Contém toda a regra de negócio da aplicação
-- 📑 **Interfaces** → Definem contratos das services
-- 📤 **DTOs** → Objetos de transferência de dados entre camadas
-- 🧱 **Models** → Entidades do banco de dados
-- 🗄️ **Data (DbContext)** → Contexto do Entity Framework Core
-- 📊 **Migrations** → Controle de versionamento do banco
+### Swagger
+
+![Swagger](./Images/swagger.png)
+
+### Cadastro de Usuário
+
+![Register](./Images/register.png)
+
+### Login
+
+![Login](./Images/login.png)
+
+---
+
+## 🚀 Como Executar
+
+### Clonar o projeto
+
+```bash
+git clone https://github.com/seu-usuario/login-system-api.git
+```
+
+### Entrar na pasta
+
+```bash
+cd login-system-api
+```
+
+### Executar as migrations
+
+```bash
+dotnet ef database update
+```
+
+### Executar a aplicação
+
+```bash
+dotnet run
+```
+
+### Acessar Swagger
+
+```text
+https://localhost:xxxx/swagger
+```
+
+---
+
+## 📈 Roadmap
+
+- [x] Cadastro de usuários
+- [x] Login de usuários
+- [x] BCrypt
+- [x] Entity Framework Core
+- [ ] JWT Authentication
+- [ ] Recuperação de senha
+- [ ] Refresh Tokens
+- [ ] Controle de permissões
+
+---
+
+## 👨‍💻 Autor
+
+**Felipe De Paula Pereira**
+
+🎓 Estudante de Tecnologia da Informação
+
+💻 Desenvolvedor Back-end focado em C# e ASP.NET Core
+
+🚀 Construindo projetos para evoluir em arquitetura de software, APIs REST e desenvolvimento profissional.
+
+⭐ Caso tenha gostado do projeto, considere deixar uma estrela no repositório.
