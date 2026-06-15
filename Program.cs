@@ -9,22 +9,22 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Connection String
+
 var connectionString = builder.Configuration.GetConnectionString("Login_systemContext")
     ?? throw new InvalidOperationException("Connection string 'Login_systemContext' not found.");
 
-// DbContext
+
 builder.Services.AddDbContext<Login_systemContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Controllers
+
 builder.Services.AddControllers();
 
-// OpenAPI
+
 builder.Services.AddOpenApi();
 
 
-// ===================== JWT AUTH =====================
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -45,16 +45,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 
-// ===================== SERVICES =====================
-// Email Service (IMPORTANTE)
+
 builder.Services.AddScoped<EmailsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
+app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
-// ===================== PIPELINE =====================
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
