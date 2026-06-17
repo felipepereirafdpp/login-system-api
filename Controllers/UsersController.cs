@@ -59,7 +59,7 @@ public class UsersController : ControllerBase
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [Authorize]
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutUsers(UpdateUserDTO userUpdate)
+    public async Task<IActionResult> PutUsers(Guid id, UpdateUserDTO userUpdate)
     {
 
         var user = await _userService.UpdateUser(userUpdate);

@@ -41,7 +41,7 @@ public class UserService : IUserService
 
     public async Task<UserDTO> GetById(ByIdDTO id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _context.Users.FindAsync(id.Id);
         if (user == null)
         {
             throw new Exception("Usuario não encontrado");
