@@ -44,9 +44,11 @@ public class UsersController : ControllerBase
 
     [Authorize]
     [HttpGet("email/{email}")]
-    public async Task<ActionResult<UserDTO>> GetByEmail(EmailDTO email)
+    public async Task<ActionResult<UserDTO>> GetByEmail(string email)
     {
-        var userEmail = await _userService.GetByEmail(email);
+        var emailDto = new EmailDTO { Email = email };
+
+        var userEmail = await _userService.GetByEmail(emailDto);
        
         return Ok(userEmail);
     }
