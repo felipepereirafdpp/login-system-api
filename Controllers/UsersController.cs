@@ -35,9 +35,11 @@ public class UsersController : ControllerBase
     // GET: api/Users/5
     [Authorize]
     [HttpGet("id/{id}")]
-    public async Task<ActionResult<UserDTO>> ListarUsuariosID(ByIdDTO id)
+    public async Task<ActionResult<UserDTO>> ListarUsuariosID(Guid id)
     {
-        var userId =  await _userService.GetById(id);
+        var idDto = new ByIdDTO { Id = id };
+
+        var userId =  await _userService.GetById(idDto);
      
         return Ok(userId);
     }
